@@ -1,0 +1,10 @@
+data/backups/*.json
+data/sync-log.json
+server.*.log
+live-commerce-blueprint-*.txt
+node_modules/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
