@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F6F3" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <title>RopasLive</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ═══ SPLASH ═══════════════════════════════════════════ -->
+  <div id="screen-splash" class="screen active">
+    <div class="splash-brand">Ropas<em>Live</em></div>
+    <div class="splash-sub">Sistema de ventas en vivo</div>
+    <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
+  </div>
+
+  <!-- ═══ HOME — BOTONERA CATEGORÍAS ══════════════════════ -->
+  <div id="screen-home" class="screen">
+    <header class="app-header">
+      <div class="header-title">Ropas<span>Live</span></div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-printer" title="Impresora">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          <span id="printer-dot" class="dot dot--off" style="position:absolute;top:6px;right:6px;"></span>
+        </button>
+        <button class="btn-icon" id="btn-live-toggle" title="Live">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Barra estado live -->
+    <div class="home-status-bar">
+      <div id="live-status-pill" class="live-info-text">Sin live activo</div>
+      <div id="live-session-stats" class="live-info-text" style="display:none"></div>
+    </div>
+
+    <div class="scroll-main">
+      <!-- Sin live -->
+      <div id="no-live-banner" class="no-live-banner">
+        <p>Inicia un live para comenzar a registrar ventas</p>
+        <button class="btn-primary" id="btn-start-live-banner" style="width:100%">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Iniciar Live
+        </button>
+      </div>
+
+      <!-- Botonera categorías -->
+      <div id="cat-grid" class="cat-grid" style="display:none"></div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-nav="home">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button class="nav-btn" data-nav="pedidos">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        <span>Pedidos</span>
+      </button>
+      <button class="nav-btn" data-nav="clientes">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Clientes</span>
+      </button>
+      <button class="nav-btn" data-nav="reportes">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Reportes</span>
+      </button>
+      <button class="nav-btn" data-nav="ajustes">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        <span>Ajustes</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ═══ VENTA ════════════════════════════════════════════ -->
+  <div id="screen-sale" class="screen">
+    <div class="sale-screen-header">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem">
+        <button class="btn-back" id="btn-back-sale">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <span style="font-size:.88rem;color:var(--text-3);font-weight:500">Nueva venta</span>
+      </div>
+      <div class="sale-code-display">
+        <div id="sale-code-badge" class="sale-code-badge"></div>
+        <div class="sale-code-meta">
+          <span id="sale-code-cat" class="sale-code-cat"></span>
+          <span id="sale-code-live-name" class="sale-code-live"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sale-form" id="sale-form">
+      <!-- Precio -->
+      <div class="price-display">
+        <div class="price-label">Precio</div>
+        <input type="number" id="input-price" class="price-input" placeholder="0" inputmode="decimal" />
+      </div>
+
+      <!-- Descuento -->
+      <div class="discount-row">
+        <label class="discount-toggle" id="discount-toggle-label">
+          <div class="toggle-switch" id="discount-toggle"><div class="toggle-knob"></div></div>
+          <span>Aplicar descuento</span>
+        </label>
+        <div id="discount-input-wrap" style="display:none;flex:1">
+          <input type="number" id="input-discount" class="field-input" placeholder="Monto descuento" inputmode="decimal" style="height:40px;font-size:.9rem" />
+        </div>
+      </div>
+
+      <!-- Cliente -->
+      <div class="field-wrap">
+        <div class="field-label">Cliente</div>
+        <div class="client-selector" id="client-selector">
+          <div class="client-search-row" id="client-search-row">
+            <svg class="client-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="client-search-input" class="client-search-input" placeholder="Buscar cliente por nombre o @..." autocomplete="off" />
+          </div>
+          <div class="client-dropdown" id="client-dropdown"></div>
+          <div id="client-selected-display" style="display:none">
+            <div class="client-selected-row">
+              <div id="client-sel-avatar" class="client-avatar" style="width:34px;height:34px;font-size:.9rem"></div>
+              <span id="client-sel-name" class="client-selected-name"></span>
+              <button class="client-clear-btn" id="btn-clear-client">Cambiar</button>
+            </div>
+          </div>
+          <div class="client-pending-row" id="client-pending-row" style="display:none" onclick="setPendingClient()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span class="client-pending-text">Dejar pendiente — agregar después</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notas opcionales -->
+      <div class="field-wrap">
+        <div class="field-label">Descripción (opcional)</div>
+        <input type="text" id="input-desc" class="field-input" placeholder="Color, talla, detalle..." autocomplete="off" />
+      </div>
+    </div>
+
+    <!-- CTAs fijos abajo -->
+    <div style="padding:.875rem 1rem;background:var(--bg-card);border-top:1px solid var(--border);flex-shrink:0">
+      <div class="sale-cta">
+        <button class="btn-save-sale" id="btn-save-sale">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Registrar e imprimir
+        </button>
+        <button class="btn-print-only" id="btn-print-only" title="Solo imprimir">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ PEDIDOS ══════════════════════════════════════════ -->
+  <div id="screen-pedidos" class="screen">
+    <header class="app-header">
+      <div class="header-title">Pedidos</div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-export-orders" title="Exportar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="kanban-filters" id="kanban-filters">
+      <button class="kfilter active" data-filter="all">Todos</button>
+      <button class="kfilter" data-filter="pending">Pendiente pago</button>
+      <button class="kfilter" data-filter="paid">Pagado</button>
+      <button class="kfilter" data-filter="packed">Empacado</button>
+      <button class="kfilter" data-filter="shipped">Despachado</button>
+      <button class="kfilter" data-filter="canceled">Cancelado</button>
+    </div>
+
+    <div class="orders-list" id="orders-list"></div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-btn active" data-nav="pedidos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Pedidos</span></button>
+      <button class="nav-btn" data-nav="clientes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+      <button class="nav-btn" data-nav="reportes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reportes</span></button>
+      <button class="nav-btn" data-nav="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Ajustes</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══ CLIENTES ═════════════════════════════════════════ -->
+  <div id="screen-clientes" class="screen">
+    <header class="app-header">
+      <div class="header-title">Clientes</div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-add-client">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="search-bar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="client-search-main" class="search-input" placeholder="Buscar por nombre o @usuario..." />
+    </div>
+    <div class="client-list-view scroll-main" id="client-list-view" style="padding-bottom:calc(var(--nav-h) + 1rem)"></div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-btn" data-nav="pedidos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Pedidos</span></button>
+      <button class="nav-btn active" data-nav="clientes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+      <button class="nav-btn" data-nav="reportes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reportes</span></button>
+      <button class="nav-btn" data-nav="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Ajustes</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══ REPORTES ═════════════════════════════════════════ -->
+  <div id="screen-reportes" class="screen">
+    <header class="app-header">
+      <div class="header-title">Reportes</div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-export-csv" title="Exportar CSV">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </button>
+      </div>
+    </header>
+    <div class="scroll-main" id="report-scroll">
+      <div class="report-hero">
+        <div class="report-hero-label">Total vendido</div>
+        <div class="report-hero-amount" id="rep-total">$0</div>
+        <div class="report-hero-row">
+          <div class="report-hero-stat">
+            <span class="report-hero-stat-val" id="rep-sales">0</span>
+            <span class="report-hero-stat-lbl">Ventas</span>
+          </div>
+          <div class="report-hero-stat">
+            <span class="report-hero-stat-val" id="rep-clients">0</span>
+            <span class="report-hero-stat-lbl">Clientes únicos</span>
+          </div>
+          <div class="report-hero-stat">
+            <span class="report-hero-stat-val" id="rep-avg">$0</span>
+            <span class="report-hero-stat-lbl">Ticket prom.</span>
+          </div>
+        </div>
+      </div>
+      <div class="report-grid" style="margin-bottom:1rem">
+        <div class="report-mini"><div class="report-mini-lbl">Lives</div><div class="report-mini-val" id="rep-lives">0</div></div>
+        <div class="report-mini"><div class="report-mini-lbl">Pendientes pago</div><div class="report-mini-val" id="rep-pending">0</div></div>
+        <div class="report-mini"><div class="report-mini-lbl">Empacados</div><div class="report-mini-val" id="rep-packed">0</div></div>
+        <div class="report-mini"><div class="report-mini-lbl">Despachados</div><div class="report-mini-val" id="rep-shipped">0</div></div>
+      </div>
+      <div class="section-head"><span class="section-title">Por live</span></div>
+      <div id="report-lives-list" style="padding:0 1rem 2rem;display:flex;flex-direction:column;gap:.5rem"></div>
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-btn" data-nav="pedidos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Pedidos</span></button>
+      <button class="nav-btn" data-nav="clientes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+      <button class="nav-btn active" data-nav="reportes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reportes</span></button>
+      <button class="nav-btn" data-nav="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Ajustes</span></button>
+    </nav>
+  </div>
+
+  <!-- ═══ AJUSTES ══════════════════════════════════════════ -->
+  <div id="screen-ajustes" class="screen">
+    <header class="app-header">
+      <div class="header-title">Ajustes</div>
+    </header>
+    <div class="settings-list scroll-main" id="settings-list">
+      <div class="settings-section-title">Categorías</div>
+      <div id="cat-settings-list"></div>
+      <button class="btn-secondary" id="btn-add-cat" style="width:100%;margin-top:.5rem">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nueva categoría
+      </button>
+
+      <div class="settings-section-title">Impresora Bluetooth</div>
+      <div class="settings-row" id="settings-printer-row">
+        <div class="settings-row-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </div>
+        <div class="settings-row-info">
+          <div class="settings-row-title">Impresora de etiquetas</div>
+          <div class="settings-row-sub" id="printer-settings-status">Sin conexión</div>
+        </div>
+        <div class="settings-row-action">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+        </div>
+      </div>
+
+      <div class="settings-section-title">Datos</div>
+      <div class="settings-row" id="btn-backup-json">
+        <div class="settings-row-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+        <div class="settings-row-info"><div class="settings-row-title">Exportar backup JSON</div><div class="settings-row-sub">Todos los datos de la app</div></div>
+        <div class="settings-row-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <div class="settings-row" id="btn-restore-json">
+        <div class="settings-row-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg></div>
+        <div class="settings-row-info"><div class="settings-row-title">Restaurar backup</div><div class="settings-row-sub">Importar desde archivo JSON</div></div>
+        <div class="settings-row-action"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+      <input type="file" id="restore-file-input" accept=".json" style="display:none" />
+    </div>
+    <nav class="bottom-nav">
+      <button class="nav-btn" data-nav="home"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Inicio</span></button>
+      <button class="nav-btn" data-nav="pedidos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span>Pedidos</span></button>
+      <button class="nav-btn" data-nav="clientes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>Clientes</span></button>
+      <button class="nav-btn" data-nav="reportes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span>Reportes</span></button>
+      <button class="nav-btn active" data-nav="ajustes"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg><span>Ajustes</span></button>
+    </nav>
+  </div>
+
+</div><!-- #app -->
+
+<!-- ═══ MODAL ROOT ════════════════════════════════════════ -->
+<div id="modal-root">
+  <div class="modal-sheet" id="modal-sheet">
+    <div class="modal-handle"></div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ═══ TOAST ROOT ═══════════════════════════════════════ -->
+<div id="toast-root" aria-live="polite"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

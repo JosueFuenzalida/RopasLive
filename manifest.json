@@ -1,0 +1,11 @@
+{
+  "name": "RopasLive",
+  "short_name": "RopasLive",
+  "description": "Sistema de ventas para live commerce de ropa",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F7F6F3",
+  "theme_color": "#F7F6F3",
+  "orientation": "portrait-primary",
+  "icons": []
+}
